@@ -45,7 +45,7 @@ while (true)
                 {
                     Console.WriteLine($" Error: {ex.Message}");
                 }
-                //ChatGpt Help//
+                //ChatGpt Hjälpte med alla {ex,Message}//
             }
             else
             {
@@ -55,7 +55,6 @@ while (true)
             Console.ReadKey();
             break;
 
-        // 🟡 SHOW ALL PRODUCTS
         case "2":
             Console.WriteLine("--- Product List ---");
             var products = productService.GetAllProducts();
