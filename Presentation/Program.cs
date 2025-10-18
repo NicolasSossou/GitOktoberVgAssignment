@@ -36,6 +36,8 @@ while (true)
                     {
                         ProductTitle = name,
                         ProductPrice = price
+                        Category = new ProductCategory { Name = categoryName ?? "Unknown" },
+                        Manufacturer = new ProductManufacturer { Name = manufacturerName ?? "Unknown" }
                     };
 
                     productService.CreateProduct(newProduct);

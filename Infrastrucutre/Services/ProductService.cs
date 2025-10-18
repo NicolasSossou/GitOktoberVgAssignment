@@ -38,6 +38,8 @@ namespace Infrastructure.Services
             newProduct.Id = Guid.NewGuid().ToString();
             newProduct.ProductTitle = productCreateRequest.ProductTitle;
             newProduct.ProductPrice = productCreateRequest.ProductPrice;
+            newProduct.Manufacturer = productCreateRequest.Manufacturer;
+            newProduct.Category = productCreateRequest.Category;
 
             _products.Add(newProduct);
             SaveToFile();

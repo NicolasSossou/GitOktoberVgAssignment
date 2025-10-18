@@ -1,7 +1,7 @@
 ﻿namespace Infrastructure.Models;
 
-public class ProductCategory
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string ProductCategoryName { get; set; } = null!;
-}
+    public class ProductCategory
+    {
+        public string Name { get; set; } = "";
+    }
+
