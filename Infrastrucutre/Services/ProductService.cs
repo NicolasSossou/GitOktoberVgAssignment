@@ -19,25 +19,29 @@ public class ProductService : IProductService
         _fileService = fileService;
         _products = _fileService.Load<Product>(FilePath).ToList();
     }
-    public void CreateProduct(ProductCreateRequest productCreateRequest)
+    public void CreateProduct(ProductCreateRequest productUpdateRequest)
     {
-        if (string.IsNullOrWhiteSpace(productCreateRequest.ProductTitle))
+      
+        if (string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
             throw new ArgumentException("Produktnamn får inte vara tomt.");
 
+      
         if (_products.Any(p =>
-            p.ProductTitle.Equals(productCreateRequest.ProductTitle, StringComparison.OrdinalIgnoreCase)))
+            p.ProductTitle.Equals(productUpdateRequest.ProductTitle, StringComparison.OrdinalIgnoreCase)))
             throw new InvalidOperationException("Produkten finns redan.");
 
+      
         var product = new Product
         {
             Id = Guid.NewGuid().ToString(),
-            ProductTitle = productCreateRequest.ProductTitle,
-            ProductPrice = productCreateRequest.ProductPrice
+            ProductTitle = productUpdateRequest.ProductTitle,
+            ProductPrice = productUpdateRequest.ProductPrice
         };
 
         _products.Add(product);
         SaveToFile();
     }
+
     public IEnumerable<Product> GetAllProducts()
     {
         return _products;
