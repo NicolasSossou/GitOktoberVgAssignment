@@ -1,4 +1,5 @@
 ﻿ using Infrastructure.Models;
+using Infrastrucutre.Models;
 using System.Text.Json;
 namespace Infrastructure.Services;
 
@@ -43,5 +44,21 @@ public class ProductService
         });
 
         _fileService.SaveJsonContentToFile(json);
+    }
+    public void DeleteProduct(ProductUpdateRequest productUpdateRequest)
+    {
+        // Find product by matching Id
+        var product = _productList.FirstOrDefault(p => p.Id == productUpdateRequest.Id);
+
+        if (product is null)
+        {
+            Console.WriteLine("Product not found.");
+            return;
+        }
+
+        _productList.Remove(product);
+        SaveToFile();  // Save changes after deletion
+
+        Console.WriteLine("Product deleted.");
     }
 }

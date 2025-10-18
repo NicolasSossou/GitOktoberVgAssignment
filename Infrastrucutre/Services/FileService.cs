@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Models;
+using Infrastrucutre.Interfaces;
 namespace Infrastructure.Services;
 
 public class FileService
@@ -36,4 +37,4 @@ public class FileService
             return string.Empty;
         }
     }
-}
+}   
