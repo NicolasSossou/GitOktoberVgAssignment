@@ -1,7 +1,6 @@
 ﻿using Infrastructure.Models;
 using Infrastructure.Services;
-
-
+using Infrastrucutre.Models;
 
 var fileService = new FileService();
 var productService = new ProductService(fileService);
@@ -13,66 +12,126 @@ while (true)
     Console.WriteLine("1. Add new product");
     Console.WriteLine("2. Show all products");
     Console.WriteLine("3. Save products to file");
-    Console.WriteLine("4. Exit");
-    Console.Write("Choose option (1-4): ");
+    Console.WriteLine("4. Update a product");
+    Console.WriteLine("5. Delete a product");
+    Console.WriteLine("6. Exit");
+    Console.Write("Choose option (1-6): ");
 
     var choice = Console.ReadLine();
 
     switch (choice)
     {
         case "1":
-            Console.Write("Enter product name: ");
+            Console.Write("Enter Product Name: ");
             string? name = Console.ReadLine();
 
-            Console.Write("Enter product price: ");
+            Console.Write("Enter Product Price: ");
             string? priceInput = Console.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(name) && decimal.TryParse(priceInput, out decimal price))
             {
-                var newProduct = new ProductCreateRequest
+                try
                 {
-                    ProductTitle = name,
-                    ProductPrice = price
-                };
+                    var newProduct = new ProductCreateRequest
+                    {
+                        ProductTitle = name,
+                        ProductPrice = price
+                    };
 
-                productService.CreateProduct(newProduct);
-                Console.WriteLine("Product added!");
+                    productService.CreateProduct(newProduct);
+                    Console.WriteLine("Product added successfully!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($" Error: {ex.Message}");
+                }
+                //ChatGpt Help//
             }
             else
             {
-                Console.WriteLine("Invalid name or price.");
+                Console.WriteLine(" Invalid. Please try again...");
             }
+
+            Console.ReadKey();
             break;
 
+        // 🟡 SHOW ALL PRODUCTS
         case "2":
-            var products = productService.GetAllProducts();
             Console.WriteLine("--- Product List ---");
-            foreach (var p in products)
+            var products = productService.GetAllProducts();
+            foreach (var product in products)
             {
-                Console.WriteLine($"ID: {p.Id} | Name: {p.ProductTitle} | Price: {p.ProductPrice} SEK");
+                Console.WriteLine($"ID: {product.Id}");
+                Console.WriteLine($"Name: {product.ProductTitle}");
+                Console.WriteLine($"Price: {product.ProductPrice} SEK");
+                Console.WriteLine("------------------------------");
             }
-
-            if (!products.Any())
-            {
-                Console.WriteLine("No products found.");
-            }
+            Console.ReadKey();
             break;
 
         case "3":
             productService.SaveToFile();
-            Console.WriteLine("Products saved to file.");
+            Console.WriteLine(" Products saved to file successfully!");
+            Console.ReadKey();
             break;
 
         case "4":
-            Console.WriteLine("Exiting...");
+            Console.Write("Enter Product ID For UpdateRequest");
+            string? updateId = Console.ReadLine();
+
+            Console.Write("Enter new name (leave empty to keep current name)");
+            string? newName = Console.ReadLine();
+
+            Console.Write("Enter new price (leave empty to keep current)");
+            string? newPriceStr = Console.ReadLine();
+
+            decimal? newPrice = null;
+            if (decimal.TryParse(newPriceStr, out decimal parsedPrice))
+                newPrice = parsedPrice;
+
+            try
+            {
+                productService.UpdateProduct(new ProductUpdateRequest
+                {
+                    Id = updateId!,
+                    ProductTitle = string.IsNullOrWhiteSpace(newName) ? null : newName,
+                    ProductPrice = newPrice
+                });
+
+                Console.WriteLine(" Product updated successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($" Error: {ex.Message}");
+            }
+
+            Console.ReadKey();
+            break;
+
+        case "5":
+            Console.Write("Enter ID of Product For Deletion");
+            string? deleteId = Console.ReadLine();
+
+            try
+            {
+                productService.DeleteProduct(deleteId!);
+                Console.WriteLine("Product deleted successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($" Error: {ex.Message}");
+            }
+
+            Console.ReadKey();
+            break;
+
+        case "6":
+            Console.WriteLine("Exiting program...");
             return;
 
         default:
-            Console.WriteLine("Invalid choice.");
+            Console.WriteLine("Invalid choice, please try again.");
+            Console.ReadKey();
             break;
     }
-
-    Console.WriteLine("Press Enter to continue...");
-    Console.ReadLine();
 }
-
