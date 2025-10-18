@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Models;
 
-namespace Infrastrucutre.Models;
+namespace Infrastructure.Models;
 
 public class ProductUpdateRequest
 {

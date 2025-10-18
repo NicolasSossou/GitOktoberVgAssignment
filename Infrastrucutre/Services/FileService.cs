@@ -1,5 +1,4 @@
-﻿using Infrastructure.Models;
-using Infrastrucutre.Interfaces;
+﻿using Infrastructure.Interfaces;
 using System.Text.Json;
 namespace Infrastructure.Services;
 
