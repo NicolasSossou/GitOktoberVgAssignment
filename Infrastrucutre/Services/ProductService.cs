@@ -23,12 +23,12 @@ public class ProductService : IProductService
     {
       
         if (string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
-            throw new ArgumentException("Produktnamn får inte vara tomt.");
+            throw new ArgumentException("Produktnamn kan inte vara tomt.");
 
       
         if (_products.Any(p =>
             p.ProductTitle.Equals(productUpdateRequest.ProductTitle, StringComparison.OrdinalIgnoreCase)))
-            throw new InvalidOperationException("Produkten finns redan.");
+            throw new InvalidOperationException("Samma produkt får inte läggas till igen.");
 
       
         var product = new Product
