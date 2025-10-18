@@ -1,13 +1,9 @@
 ﻿using Infrastructure.Models;
-using Infrastructure.Services;
-using Infrastrucutre.Interfaces;
-using Infrastrucutre.Models;
-using System;
-using System.Collections.Generic;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Services
 {
-    public class ProductService : IProductService
+    public class ProductService :   IProductService
     {
         private IFileService _fileService = new FileService();
         private List<Product> _products = new List<Product>();
@@ -23,13 +19,13 @@ namespace Infrastructure.Services
         public void CreateProduct(ProductCreateRequest productCreateRequest)
         {
             if (string.IsNullOrWhiteSpace(productCreateRequest.ProductTitle))
-                throw new ArgumentException("Product name cannot be empty or false.");
+                throw new ArgumentException("Product Name Cannot Be Empty Or False.");
 
             foreach (Product item in _products)
             {
                 if (item.ProductTitle.ToLower() == productCreateRequest.ProductTitle.ToLower())
                 {
-                    throw new InvalidOperationException("Product name already exists.");
+                    throw new InvalidOperationException("Product Name Already Exists.");
                 }
             }
 

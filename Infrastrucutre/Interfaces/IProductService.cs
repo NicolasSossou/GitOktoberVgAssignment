@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Models;
-using Infrastrucutre.Models;
 
-namespace Infrastrucutre.Interfaces;
+
+namespace Infrastructure.Interfaces;
 
 public interface IProductService
 {

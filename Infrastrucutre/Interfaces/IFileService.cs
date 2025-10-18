@@ -1,4 +1,4 @@
-﻿namespace Infrastrucutre.Interfaces;
+﻿namespace Infrastructure.Interfaces;
 
  public interface IFileService
 {
