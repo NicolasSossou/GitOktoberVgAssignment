@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Models;
 using Infrastructure.Services;
 using Infrastrucutre.Models;
-
+    
 var fileService = new FileService();
 var productService = new ProductService(fileService);
 
@@ -35,9 +35,8 @@ while (true)
                     var newProduct = new ProductCreateRequest
                     {
                         ProductTitle = name,
-                        ProductPrice = price
-                        Category = new ProductCategory { Name = categoryName ?? "Unknown" },
-                        Manufacturer = new ProductManufacturer { Name = manufacturerName ?? "Unknown" }
+                        Category = new ProductCategory { Name =  ?? "Unknown" },
+                        Manufacturer = new ProductManufacturer { Name =  ?? "Unknown" }
                     };
 
                     productService.CreateProduct(newProduct);
