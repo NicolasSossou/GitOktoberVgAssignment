@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="750" Width="500">
     <Grid>
 
+        <Button></Button> 
+<Grid Margin="10">
+     <Grid.RowDefinitions>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="*"/>
+     </Grid.RowDefinitions>
+
+     <StackPanel Grid.Row="0">
+         <Label Content="Product:" />
+         <TextBox x:Name="Product" Margin="0,5,0,5" Padding="5" Text="" />
+         <Button x:Name="AddProduct" Content="Add Product" Padding="5" Click="AddProduct_Click" />
+     </StackPanel>
+
+     <ListView x:Name="Products" Grid.Row="1" Margin="0 30 0 0">
+         
+     </ListView>
+
+ </Grid>
     </Grid>
 </Window>
