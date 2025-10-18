@@ -1,40 +1,22 @@
 ﻿using Infrastructure.Models;
 using Infrastrucutre.Interfaces;
+using System.Text.Json;
 namespace Infrastructure.Services;
 
-public class FileService
+public class FileService : IFileService
 {
-    private readonly string _filePath;
-
-    public FileService(string filePath = "products.json") 
+    public void Save<T>(string path, IEnumerable<T> items)
     {
-        _filePath = filePath;
-    }
+        var json = JsonSerializer.Serialize(items, new JsonSerializerOptions { WriteIndented = true });
 
-    public bool SaveJsonContentToFile(string jsonContent)
-    {
-        try
-        {
-            File.WriteAllText(_filePath, jsonContent);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        File.WriteAllText(path, json);
     }
+    public IEnumerable<T> Load<T>(string path)
+    {
+        if (!File.Exists(path))
+            return Enumerable.Empty<T>();
 
-    public string GetJsonContentFromFile()
-    {
-        try
-        {
-            return File.Exists(_filePath)
-                ? File.ReadAllText(_filePath)
-                : string.Empty;
-        }
-        catch
-        {
-            return string.Empty;
-        }
+        var json = File.ReadAllText(path);
+        return JsonSerializer.Deserialize<IEnumerable<T>>(json) ?? Enumerable.Empty<T>();
     }
-}   
+}
