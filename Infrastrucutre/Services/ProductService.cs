@@ -23,12 +23,12 @@ public class ProductService : IProductService
     {
       
         if (string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
-            throw new ArgumentException("Produktnamn kan inte vara tomt.");
+            throw new ArgumentException("ProductTitle Cannot Be NullorWhiteSpace.");
 
       
         if (_products.Any(p =>
             p.ProductTitle.Equals(productUpdateRequest.ProductTitle, StringComparison.OrdinalIgnoreCase)))
-            throw new InvalidOperationException("Samma produkt får inte läggas till igen.");
+            throw new InvalidOperationException("Cannot Create The Same Product Multiple Times.");
 
       
         var product = new Product
@@ -54,7 +54,7 @@ public class ProductService : IProductService
     {
         var product = _products.FirstOrDefault(p => p.Id == productUpdateRequest.Id);
         if (product == null)
-            throw new InvalidOperationException("Produkten hittades inte.");
+            throw new InvalidOperationException("The Product Could Not Be Found");
 
         if (!string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
             product.ProductTitle = productUpdateRequest.ProductTitle;
@@ -74,7 +74,7 @@ public class ProductService : IProductService
     {
         var product = _products.FirstOrDefault(p => p.Id == id);
         if (product == null)
-            throw new InvalidOperationException("Produkten hittades inte.");
+            throw new InvalidOperationException("The Product Could Not Be Found");
 
         _products.Remove(product);
         SaveToFile();
