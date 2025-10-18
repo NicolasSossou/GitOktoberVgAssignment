@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{7905EDF8-AB1E-4D4F-A959-A240F12A1FEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastrucutre", "Infrastrucutre\Infrastrucutre.csproj", "{244743BC-4954-4B85-B59F-36CD6B99823E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastrucutre\Infrastructure.csproj", "{244743BC-4954-4B85-B59F-36CD6B99823E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.xUnit1", "Test.xUnit1\Test.xUnit1.csproj", "{E0A79EB7-7800-47D8-9B64-F0A101DDA21A}"
 EndProject

@@ -1,87 +1,111 @@
-﻿ using Infrastructure.Models;
+﻿using Infrastructure.Models;
+using Infrastructure.Services;
 using Infrastrucutre.Interfaces;
 using Infrastrucutre.Models;
-using System.Text.Json;
-namespace Infrastructure.Services;
+using System;
+using System.Collections.Generic;
 
-using Infrastrucutre.Interfaces;
-using Infrastructure.Models;
-using System.Text.Json;
-
-public class ProductService : IProductService
+namespace Infrastructure.Services
 {
-    private readonly IFileService _fileService;
-    private List<Product> _products;
-    private const string FilePath = "products.json";
-
-    public ProductService(IFileService fileService)
+    public class ProductService : IProductService
     {
-        _fileService = fileService;
-        _products = _fileService.Load<Product>(FilePath).ToList();
-    }
-    public void CreateProduct(ProductCreateRequest productUpdateRequest)
-    {
-      
-        if (string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
-            throw new ArgumentException("ProductTitle Cannot Be NullorWhiteSpace.");
+        private IFileService _fileService = new FileService();
+        private List<Product> _products = new List<Product>();
 
-      
-        if (_products.Any(p =>
-            p.ProductTitle.Equals(productUpdateRequest.ProductTitle, StringComparison.OrdinalIgnoreCase)))
-            throw new InvalidOperationException("Cannot Create The Same Product Multiple Times.");
+        private const string FilePath = @"C:\products.json";
 
-      
-        var product = new Product
+        public ProductService(FileService fileService)
         {
-            Id = Guid.NewGuid().ToString(),
-            ProductTitle = productUpdateRequest.ProductTitle,
-            ProductPrice = productUpdateRequest.ProductPrice
-        };
+            _products = _fileService.Load<Product>(FilePath).ToList();
+            _fileService = fileService;
+        }
 
-        _products.Add(product);
-        SaveToFile();
-    }
+        public void CreateProduct(ProductCreateRequest productCreateRequest)
+        {
+            if (string.IsNullOrWhiteSpace(productCreateRequest.ProductTitle))
+                throw new ArgumentException("Product name cannot be empty or false.");
 
-    public IEnumerable<Product> GetAllProducts()
-    {
-        return _products;
-    }
-    public Product? GetProductById(string id)
-    {
-        return _products.FirstOrDefault(p => p.Id == id);
-    }
-    public void UpdateProduct(ProductUpdateRequest productUpdateRequest)
-    {
-        var product = _products.FirstOrDefault(p => p.Id == productUpdateRequest.Id);
-        if (product == null)
-            throw new InvalidOperationException("The Product Could Not Be Found");
+            foreach (Product item in _products)
+            {
+                if (item.ProductTitle.ToLower() == productCreateRequest.ProductTitle.ToLower())
+                {
+                    throw new InvalidOperationException("Product name already exists.");
+                }
+            }
 
-        if (!string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
-            product.ProductTitle = productUpdateRequest.ProductTitle;
 
-        if (productUpdateRequest.ProductPrice.HasValue)
-            product.ProductPrice = productUpdateRequest.ProductPrice.Value;
+            Product newProduct = new Product();
+            newProduct.Id = Guid.NewGuid().ToString();
+            newProduct.ProductTitle = productCreateRequest.ProductTitle;
+            newProduct.ProductPrice = productCreateRequest.ProductPrice;
 
-        if (productUpdateRequest.Category != null)
-            product.Category = productUpdateRequest.Category;
+            _products.Add(newProduct);
+            SaveToFile();
+        }
 
-        if (productUpdateRequest.Manufacturer != null)
-            product.Manufacturer = productUpdateRequest.Manufacturer;
+        public IEnumerable<Product> GetAllProducts()
+        {
+            return _products;
+        }
 
-        SaveToFile();
-    }
-    public void DeleteProduct(string id)
-    {
-        var product = _products.FirstOrDefault(p => p.Id == id);
-        if (product == null)
-            throw new InvalidOperationException("The Product Could Not Be Found");
+        public Product GetProductById(string id)
+        {
+            foreach (Product product in _products)
+            {
+                if (product.Id == id)
+                    return product;
+            }
+            return null!;
+        }
 
-        _products.Remove(product);
-        SaveToFile();
-    }
-    public void SaveToFile()
-    {
-        _fileService.Save(FilePath, _products);
+        
+        public void UpdateProduct(ProductUpdateRequest productUpdateRequest)
+        {
+            Product? productToUpdate = null;
+
+            foreach (Product product in _products)
+            {
+                if (product.Id == productUpdateRequest.Id)
+                {
+                    productToUpdate = product;
+                    break;
+                }
+            }
+
+            if (productToUpdate == null)
+                throw new InvalidOperationException("Product not found.");
+
+            if (!string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
+                productToUpdate.ProductTitle = productUpdateRequest.ProductTitle;
+
+            if (productUpdateRequest.ProductPrice.HasValue)
+                productToUpdate.ProductPrice = productUpdateRequest.ProductPrice.Value;
+
+            SaveToFile();
+        }
+        public void DeleteProduct(string id)
+        {
+            Product? productToDelete = null;
+
+            foreach (Product product in _products)
+            {
+                if (product.Id == id)
+                {
+                    productToDelete = product;
+                    break;
+                }
+            }
+
+            if (productToDelete == null)
+                throw new InvalidOperationException("Product not found.");
+
+            _products.Remove(productToDelete);
+            SaveToFile();
+        }
+
+        public void SaveToFile()
+        {
+            _fileService.Save(FilePath, _products);
+        }
     }
 }
-
