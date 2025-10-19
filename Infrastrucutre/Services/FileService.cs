@@ -1,47 +1,39 @@
-﻿using Infrastructure.Interfaces;
-using System.Text.Json;
+﻿
 namespace Infrastructure.Services;
 
-    public class FileService : IFileService
+public class FileService
+{
+    private readonly string _filePath;
+
+    public FileService(string filePath = "products.json")
     {
-        public void Save<T>(string filepath, IEnumerable<T> products)
-        {
-            try
-            {
-                string jsonText = JsonSerializer.Serialize(products, new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                });
+        _filePath = filePath;
+    }
 
-                File.WriteAllText(filepath, jsonText);
-            }
-            ()
-            {
-                Console.WriteLine("Could not save file");
-            }
+    public bool SaveJsonContentToFile(string jsonContent)
+    {
+        try
+        {
+            File.WriteAllText(_filePath, jsonContent);
+            return true;
         }
-
-        public IEnumerable<T> Load<T>(string filepath)
+        catch
         {
-            try
-            {
-                if (!File.Exists(filepath))
-                    return Enumerable.Empty<T>();
-
-                string jsonText = File.ReadAllText(filepath);
-
-                IEnumerable<T>? products = JsonSerializer.Deserialize<IEnumerable<T>>(jsonText);
-
-                if (products == null)
-                    return Enumerable.Empty<T>();
-
-                return products;
-            }
-             ()
-            {
-                Console.WriteLine("Could not load file");
-                return Enumerable.Empty<T>();
-            }
+            return false;
         }
     }
 
+    public string GetJsonContentFromFile()
+    {
+        try
+        {
+            return File.Exists(_filePath)
+                ? File.ReadAllText(_filePath)
+                : string.Empty;
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+}

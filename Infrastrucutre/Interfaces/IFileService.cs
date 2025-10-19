@@ -1,7 +1,10 @@
 ﻿namespace Infrastructure.Interfaces;
 
- public interface IFileService
+using System.Collections.Generic;
+
+public interface IFileService
 {
-    void Save<T>(string path, IEnumerable<T> products);
-    IEnumerable<T> Load<T>(string path);
+    bool SaveJsonContentToFile(string jsonContent);
+    string GetJsonContentFromFile();
 }
+

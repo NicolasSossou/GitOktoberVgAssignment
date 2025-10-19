@@ -1,14 +1,15 @@
 ﻿using Infrastructure.Models;
 
-
-namespace Infrastructure.Interfaces;
-
-public interface IProductService
+namespace Infrastructure.Interfaces
 {
-        void CreateProduct(ProductCreateRequest productCreateRequest);
-        IEnumerable<Product> GetAllProducts();
+    public interface IProductService
+    {
+        bool CreateProduct(ProductCreateRequest productCreateRequest);
+        List<Product> GetAllProducts();
         Product? GetProductById(string id);
-        void UpdateProduct(ProductUpdateRequest productUpdateRequest);
-        void DeleteProduct(string id);
+        bool UpdateProduct(ProductUpdateRequest productUpdateRequest);
+        bool DeleteProduct(string id);
         void SaveToFile();
+        void LoadFromFile();
+    }
 }
