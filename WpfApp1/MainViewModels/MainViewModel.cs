@@ -1,21 +1,18 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System.Collections.ObjectModel;
+using MainApp.Models;
 
-namespace MainApp.MainViewModels;
-
-public partial class MainViewModel : ObservableObject
+public class MainViewModel
 {
-    private readonly IServiceProvider _serviceProvider;
+    public ObservableCollection<Product> Products { get; } = new ObservableCollection<Product>();
 
-    [ObservableProperty]
-    private ObservableObject _currentViewModel = null!;
-
-    public MainViewModel(IServiceProvider serviceProvider)
+    public void Add_Product_Click(string name, string category, string manufacturer, string price)
     {
-        _serviceProvider = serviceProvider;
-        CurrentViewModel = _serviceProvider.GetRequiredService<MainViewModel>();    
+        Products.Add(new Product
+        {
+            Name = name,
+            Category = category,
+            Manufacturer = manufacturer,
+            Price = price
+        });
     }
-
-    
 }
