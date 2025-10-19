@@ -117,12 +117,12 @@ namespace Infrastructure.Services
             return false;
         }
 
-       
-        public bool DeleteProduct(string id)
+
+        public bool DeleteProduct(string productId)
         {
             foreach (var product in productList)
             {
-                if (product.Id == id)
+                if (product.Id == productId)
                 {
                     productList.Remove(product);
                     SaveToFile();
@@ -133,6 +133,8 @@ namespace Infrastructure.Services
 
             Console.WriteLine("Product Does Not Exist");
             return false;
+
         }
     }
 }
+
