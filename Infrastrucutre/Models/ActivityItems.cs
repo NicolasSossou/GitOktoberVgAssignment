@@ -1,7 +1,7 @@
 ﻿namespace Infrastructure.Models;
 
-public class ActivityItem
+public class ActivityItems
 {
-    public string Activity {  get; set; }   
+    public string Activity { get; set; } = null!;   
     public bool IsCompleted { get; set; }
 }

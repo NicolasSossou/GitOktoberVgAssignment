@@ -2,24 +2,21 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-
+using MainApp.MainViewModels;
+using MainApp.Models;
+using Microsoft.Extensions.DependencyInjection;
 namespace MainApp;
 
 public partial class MainWindow : Window
 {
-    private ObservableCollection<string> _products = ["Items Loaded"];
-    public MainWindow()
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
-        Products.ItemsSource = _products;
+       DataContext= viewModel;
     }
 
 
     private void AddProduct_Click(object sender, RoutedEventArgs e) // själva objektet som triggat eventet//
     {
-       
-        Products.Items.Add("Button Clicked");
-      
     }
-
 }
