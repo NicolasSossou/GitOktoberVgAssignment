@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using Infrastructure.Models;
 using Infrastructure.Services;
 
@@ -18,9 +19,9 @@ while (true)
     Console.WriteLine("6. Exit");
     Console.Write("Choose Option (1-6): ");
 
-    var choice = Console.ReadLine();
+    string? Option = Console.ReadLine();
 
-    switch (choice)
+    switch (Option)
     {
    case "1":
         Console.Clear();
@@ -30,16 +31,16 @@ while (true)
         string? productName = Console.ReadLine();
 
         Console.Write("Enter Product Price: ");
-        string? productPriceInput = Console.ReadLine();
+        string? productPrice = Console.ReadLine();
 
         Console.Write("Enter Product Category: ");
-        string? productCategoryInput = Console.ReadLine();
+        string? productCategory = Console.ReadLine();
 
         Console.Write("Enter Manufacturer Name: ");
-        string? productManufacturerInput = Console.ReadLine();
+        string? productManufacturer = Console.ReadLine();
 
 
-        if (!string.IsNullOrWhiteSpace(productName) && decimal.TryParse(productPriceInput, out decimal productPrice))
+        if (!string.IsNullOrWhiteSpace(productName) && decimal.TryParse(productPrice, out decimal productPrice))
         {
             
             var newProduct = new ProductCreateRequest();
@@ -50,23 +51,23 @@ while (true)
 
            
             var category = new ProductCategory();
-            if (string.IsNullOrWhiteSpace(productCategoryInput))
+            if (string.IsNullOrWhiteSpace(productCategory))
             {
                 category.Name = "";
             }
             else
             {
-                category.Name = productCategoryInput.Trim();
+                category.Name = productCategory.Trim();
             }
 
             var manufacturer = new ProductManufacturer();
-            if (string.IsNullOrWhiteSpace(productManufacturerInput))
+            if (string.IsNullOrWhiteSpace(productManufacturer))
             {
                 manufacturer.Name = "";
             }
             else
             {
-                manufacturer.Name = productManufacturerInput.Trim();
+                manufacturer.Name = productManufacturer.Trim();
             }
 
             
@@ -80,7 +81,7 @@ while (true)
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Error...");
             }
         }
         else
@@ -119,10 +120,10 @@ while (true)
             string? newName = Console.ReadLine();
 
             Console.Write("Enter new price (Leave Empty To Keep Current Price)");
-            string? newPriceStr = Console.ReadLine();
+            string? newPrices = Console.ReadLine();
 
             decimal? newPrice = null;
-            if (decimal.TryParse(newPriceStr, out decimal parsedPrice))
+            if (decimal.TryParse(newPrices, out decimal parsedPrice))
                 newPrice = parsedPrice;
 
             try
@@ -136,9 +137,9 @@ while (true)
 
                 Console.WriteLine("Product updated successfully!");
             }
-            catch (Exception ex)
+             ()
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Error...");
             }
 
             Console.ReadKey();
@@ -153,9 +154,9 @@ while (true)
                 productService.DeleteProduct(deleteId!);
                 Console.WriteLine("Product Deleted Successfully!");
             }
-            catch (Exception ex)
+             ()
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine("Error...");
             }
 
             Console.ReadKey();

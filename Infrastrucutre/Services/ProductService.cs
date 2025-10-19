@@ -19,13 +19,13 @@ namespace Infrastructure.Services
         public void CreateProduct(ProductCreateRequest productCreateRequest)
         {
             if (string.IsNullOrWhiteSpace(productCreateRequest.ProductTitle))
-                throw new ArgumentException("Product Name Cannot Be Empty Or False.");
+                ("Product Name Cannot Be Empty Or False.");
 
-            foreach (Product item in _products)
+            foreach (Product product in _products)
             {
-                if (item.ProductTitle.ToLower() == productCreateRequest.ProductTitle.ToLower())
+                if (product.ProductTitle.ToLower() == productCreateRequest.ProductTitle.ToLower())
                 {
-                    throw new InvalidOperationException("Product Name Already Exists.");
+                    ("Product Name Already Exists.");
                 }
             }
 
@@ -71,7 +71,7 @@ namespace Infrastructure.Services
             }
 
             if (productToUpdate == null)
-                throw new InvalidOperationException("Product not found.");
+                Console.WriteLine("Product not found.");
 
             if (!string.IsNullOrWhiteSpace(productUpdateRequest.ProductTitle))
                 productToUpdate.ProductTitle = productUpdateRequest.ProductTitle;
@@ -95,7 +95,7 @@ namespace Infrastructure.Services
             }
 
             if (productToDelete == null)
-                throw new InvalidOperationException("Product not found.");
+                ("Product not found.");
 
             _products.Remove(productToDelete);
             SaveToFile();

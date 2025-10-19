@@ -4,42 +4,42 @@ namespace Infrastructure.Services;
 
     public class FileService : IFileService
     {
-        public void Save<T>(string path, IEnumerable<T> items)
+        public void Save<T>(string filepath, IEnumerable<T> products)
         {
             try
             {
-                string jsonText = JsonSerializer.Serialize(items, new JsonSerializerOptions
+                string jsonText = JsonSerializer.Serialize(products, new JsonSerializerOptions
                 {
                     WriteIndented = true
                 });
 
-                File.WriteAllText(path, jsonText);
+                File.WriteAllText(filepath, jsonText);
             }
-            catch (Exception ex)
+            ()
             {
-                Console.WriteLine($"Could not save file: {ex.Message}");
+                Console.WriteLine("Could not save file");
             }
         }
 
-        public IEnumerable<T> Load<T>(string path)
+        public IEnumerable<T> Load<T>(string filepath)
         {
             try
             {
-                if (!File.Exists(path))
+                if (!File.Exists(filepath))
                     return Enumerable.Empty<T>();
 
-                string jsonText = File.ReadAllText(path);
+                string jsonText = File.ReadAllText(filepath);
 
-                IEnumerable<T>? items = JsonSerializer.Deserialize<IEnumerable<T>>(jsonText);
+                IEnumerable<T>? products = JsonSerializer.Deserialize<IEnumerable<T>>(jsonText);
 
-                if (items == null)
+                if (products == null)
                     return Enumerable.Empty<T>();
 
-                return items;
+                return products;
             }
-            catch (Exception ex)
+             ()
             {
-                Console.WriteLine($"Could not load file: {ex.Message}");
+                Console.WriteLine("Could not load file");
                 return Enumerable.Empty<T>();
             }
         }
