@@ -1,16 +1,23 @@
-﻿ <Window x:Class="MainApp.MainWindow"
+﻿<Window x:Class="MainApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:MainApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="500">
+        Title="My App" Height="600" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="OliveDrab">
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
+        
 
         <StackPanel Grid.Row="0">
             <TextBlock Text="Product Title:" />
@@ -26,6 +33,9 @@
             <TextBox x:Name="ManufacturerTextBox" Margin="0,5,0,5"/>
 
             <Button x:Name="AddProduct" Content="Add Product" Padding="5" Click="AddProduct_Click" />
+            <Button Click="AddProduct_Click"></Button>
+            <CheckBox IsChecked="True"  Click="AddProduct_Click"></CheckBox>
+            
         </StackPanel>
 
         <ListView x:Name="Products" Grid.Row="1" Margin="0 30 0 0">
