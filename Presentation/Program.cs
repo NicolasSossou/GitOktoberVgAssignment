@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using Infrastructure.Models;
+﻿using Infrastructure.Models;
 using Infrastructure.Services;
 
 
@@ -154,7 +152,7 @@ while (true)
                 productService.DeleteProduct(deleteId!);
                 Console.WriteLine("Product Deleted Successfully!");
             }
-             ()
+            
             {
                 Console.WriteLine("Error...");
             }
